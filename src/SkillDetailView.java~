@@ -1,0 +1,37 @@
+/**
+ * This class make the Skill Detail View Window
+ * @author Mike "The Mechanic" Kelly
+ */
+
+import javax.swing.*;
+import java.awt.*;
+
+public class SkillDetailView extends JFrame{
+    
+    private SkillModel sm;
+    private JLabel name;
+    private JLabel level;
+    private JProgressBar progress;
+    
+    public SkillDetailView(SkillModel sm){
+	super("Skill Detail: "+sm.getName());
+	this.sm = sm;
+	Box topVBox=Box.createVerticalBox();
+	Box topHBox=Box.createHorizontalBox();
+	Box downHBox=Box.createHotizontalBox();
+	Box reqVBox=Box.createVerticalBox();
+	Box mileVBox=Box.createVerticlaBox();
+	Box rightVBox=Box.createVerticalBox();
+	Box detailsVBox=Box.createVerticalBox();
+	Box rightDownHBox=Box.createHorizontalBox();
+	Box parentVBox=Box.createVerticalBox();
+	Box sonsVBox=Box.createVerticalBox();
+	/******/
+	topHBox.add(name);
+	topHBox.add(level);
+	topHBox.add(progress);
+	topVBox.add(topHBox);
+	topVBox.add(new JSeparator());
+	topVBox.add(downHBox);
+    }
+}
