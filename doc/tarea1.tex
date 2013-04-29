@@ -1,0 +1,133 @@
+\documentclass{article}
+
+\usepackage{xcolor}
+\usepackage{listings}
+
+
+\lstdefinestyle{DOS}
+{
+    backgroundcolor=\color{black},
+    basicstyle=\scriptsize\color{white}\ttfamily
+}
+\author{Santiago Torres Arias}
+\title{Tarea 1: Introducci\'on a Variables y Datos}
+
+\begin{document}
+\maketitle
+\section{Variables, printf y scanf}
+Esta secci\'on consta de tres ejercicios para poder refrescar los conceptos de variables y las funciones para despliegue y adquisici\'on de las mismas en la terminal.
+\subsection{Ejercicio 1: Printf}
+El primer ejercicio es crear un programa que reciba un valor de caracter y despliegue sus valores en diferentes formatos (caract\'er, decimal, hexadecimal y octal). A continuaci\'on se muestra un aproximado del comportamiento.
+
+\begin{lstlisting}[style=DOS]
+Hola, Escribe un numero: 65
+Los valores correspondientes son: A 65 41 101
+Hasta luego.
+\end{lstlisting}
+\subsubsection{Tips}
+\begin{itemize}
+  \item La funci\'on printf tiene diferentes formatos de despliegue (\%d es decimal por ejemplo...)
+  \item Se requiere un \% por cada despliegue, aunque la variable sea la misma.
+\end{itemize}
+
+\subsection{Ejercicio 2: Tipos de datos}
+Este ejercicio ayudar\'a a entender las caracteristicas de las variables involucradas. Es necesario declarar cuatro variables de tipo \textbf{unsigned char, char, unsigned int y int}. Se deber\'a leer el valor en el \textbf{int} e intercambiar los valores entre las variables. Finalmente, hay que desplegar el contenido de cada variable. Por ejemplo. 
+
+\begin{lstlisting}[style=DOS]
+Hola, Escribe un numero: 255
+El int tiene: 255
+El unsigned int tiene: 255
+El char tiene -1
+El unsigned char tiene: 255
+\end{lstlisting}
+
+\subsubsection{Tips}
+El printf tiene diferentes formatos para imprimir los valores de cada tipo de variable, a continuaci\'on se presentan los correctos (esto ayudar\'a a ver el efecto del mismo programa).
+\begin{itemize}
+  \item int es \%d
+  \item unsigned int es \%u
+  \item char es \%hhd
+  \item unsigned char es \%hhu
+\end{itemize}
+La 'h' significa ``half'', dos 'h' significan ``half-half'' es decir, interpreta el valor como un cuarto del mismo. \\
+Por otro lado la u significa ``unsigned decimal'' es decir, imprime el valor decimal sin signo de la variable.
+\subsubsection{Un poco m\'as all\'a}
+?` Que pasa si intercambias los formatos entre las variables? Trata de explicarlo...
+
+\subsection{Ejercicio 3: Manejo de variables}
+Este ejercicio pretente introducir el uso primario de las variables: almacenar y modificar los valores de las mismas. El programa de este ejercicio debe de recibir una variable decimal e imprimir el n\'umero consecutivo (es decir, el valor de la variable + 1),  el n\'umero anterior (variable - 1) y su potencia de dos (variable * variable). \textbf{Es importante que el valor se almacene en la variable y no solamente se calcule}, para lograr esto se requiere utilizar el ``operador'' de asignaci\'on (=). El programa deber\'a verse algo as\'i:
+
+\begin{lstlisting}[style=DOS]
+Hola, dame un valor: 10
+Consecutivo: 11
+Anterior: 9
+Potencia : 100
+\end{lstlisting}
+\subsubsection{Tips}
+Recomiendo utilizar dos variables, un ``original'' y un ``resultado'' los c\'alculos se pueden hacer as\'i:
+\begin{lstlisting}[language=C]
+resultado = original + 1; 
+\end{lstlisting}
+por ejemplo.
+
+\section{Control de Flujo: Ifs}
+Los ifs nos permiten ejecutar dos bloques de c\'odigo completamente diferentes, a continuaci\'on se encontrar\'an dos ejercicios que nos permitir\'an probar un poco los ifs.
+\subsection{Ejercicio 4: El cadenero}
+Se requiere un programa que verifique que el usuario sea mayor de edad (Es decir, mayor a 18 a\~nos). El programa deber\'a funcionar algo as\'i:
+\begin{lstlisting}[style=DOS]
+Hola, Dame tu edad: 16
+No puedes pasar, vete.
+\end{lstlisting}
+La otra variante ser\'ia:
+\begin{lstlisting}[style=DOS]
+Hola, Dame tu edad: 18
+Bienvenido!
+\end{lstlisting}
+\subsubsection{Tips}
+\begin{itemize}
+  \item El operador $>$ nos permite checar que un numero sea mayor que otro
+  \item No olvides que el programa permite la entrada a los 18 a\~nos.
+  \item Existe la posibilidad de lograr el programa utilizando $>$ o $>$=, prueba las dos.
+\end{itemize}
+
+\subsection{Ejercicio 5: Mini-Calculadora}
+La mini-calculadora es una extensi\'on del ejercicio 3, s\'olo que ahora deber\'iamos de ser capaces de elejir s\'olamente una opci\'on, el programa s\'olo ejecutar\'a un bloque del programa anterior en base a la opci\'on elegida:
+
+\begin{lstlisting}[style=DOS]
+Hola, dame dos numeros: 4 5
+Y la operacion: +
+4 + 5 = 9.
+\end{lstlisting}
+\subsubsection{Tips}
+\begin{itemize}
+  \item No olvides que es diferente el operador de asignaci\'on (=) y el de comparaci\'on (==), el segundo se usa para los ifs.
+  \item Requerir\'as de una serie de estructuras if-else, pueden ser ligados con else if. Por ejemplo:
+    \begin{lstlisting}[language=C]
+      if(...){
+        ...
+      }else if(...){
+        ...
+      }else if(...){
+        ...
+      }else{
+        printf(``opcion invalida'');
+      }
+    \end{lstlisting}
+  \item Para saber que operaci\'on hacer deber\'as de leer un \textbf{char}, lo podr\'as comparar haciendo algo as\'i:
+    \begin{lstlisting}[language=C]
+      if(operacion=='+'){
+        ...
+      }
+    \end{lstlisting}
+    Nota como el caracter de suma est\'a encerrado en comillas simples.
+  \item Para imprimir la operaci\'on tal cual puedes utilizar una cadena de formato parecida a esta ``\%d \%c \%d = \%d'' para generar la salida requerida.
+\end{itemize}
+\section{Dudas}
+Puedes mandarme dudas cuando quieras, recuerda que existen tres tipos de errores:
+
+\begin{itemize}
+  \item \textbf{Errores de Compilaci\'on}: El programa no compila, si esto te pasa copia y pegalo y tratar\'e de ayudarte a encontrarlo.
+  \item \textbf{Errores de l\'ogica}: El programa compila pero no hace lo que deber\'ia, es posible que requieras checar el programa paso por paso. Ya veremos un espacio para utilizar debuggers, que es una herramienta para solucionar estos errores.
+  \item \textbf{Errores desconocidos}: La l\'ogica funciona, pero existen elementos que no hacen lo que deber\'ian. Estos suelen ser los m\'as graves. 
+\end{itemize}
+\end{document}
