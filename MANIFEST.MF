@@ -1,0 +1,3 @@
+nifest-version: 1.0
+Main-Class: SkillTree
+Class-Path: .
