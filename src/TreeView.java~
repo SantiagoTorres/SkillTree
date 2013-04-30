@@ -9,13 +9,12 @@ public class TreeView {
 	public TreeView(int x, int y, Container pane) {
 		      
 		this.pane = pane;
-		GridBagConstraints c = new GridBagConstraints();
-		pane.setLayout(new GridBagLayout());
-		pane.add(new JTextArea(10, 40),c);
-				          
+		pane.setLayout(new GridLayout(x,y));
+		pane.add(new JTextArea(10, 40));
 	}
 
 	public boolean addComponentAt(Component component, int x, int y){
+		this.pane.add(component);
 		return true;
 
 	}
