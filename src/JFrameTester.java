@@ -5,6 +5,7 @@ public class JFrameTester {
 	
 
 	public static void main(String[] args) {
+
 		TreeView treeView;
 		MainWindow mainWindow;
 		CreateSkill theSkill;
@@ -16,5 +17,5 @@ public class JFrameTester {
 		mainWindow = new MainWindow(treeView);
 		theSkill = new CreateSkill(treeModel);
 	}
-	    
+	
 }

@@ -28,7 +28,7 @@ public class SkillModel{
 		this.sons = emptySkills;
 		this.details = emptyDetails;
 		this.level=0;
-		this.maxLevel=1;
+		this.maxLevel=10;
 		this.milestones=emptyDetails;
 		this.achieved = new int[1];
 		this.requirements = emptyDetails;
@@ -91,5 +91,30 @@ public class SkillModel{
     
     public int getLevel(){
 	return this.level;
+    }
+    
+    public int getMaxLevel(){
+	return this.maxLevel;
+    }
+    
+    public String[] getRequirements(){
+	return this.requirements;
+    }
+
+    public SkillModel[] getParents(){
+	return this.parent;
+    }
+    public SkillModel[] getSons(){
+	return this.sons;
+    }
+    public void setAchieved(int num){
+	if(this.achieved[num]==0){
+	    this.achieved[num]=1;
+	}else{
+	    this.achieved[num]=0;
+	}
+	for(int i=0;i<this.achieved.length;i++){
+	    System.out.println(this.achieved[i]);
+	}
     }
 }
