@@ -1,7 +1,7 @@
 /*
  * Skill Model: Contains information about an specific skill under the tree
  *
- * Author: Santiago Torres
+ * Author: Santiago Torres, Miguel Kelly
  * Date: 29 apr 2013
  */
 import java.lang.*;
@@ -26,8 +26,6 @@ public class SkillModel{
 		this.name = new String("Empty");
 		this.parent = emptySkills;
 		this.sons = emptySkills;
-		this.next = this;
-		this.last = this;
 		this.details = emptyDetails;
 		this.level=0;
 		this.maxLevel=1;
@@ -43,8 +41,6 @@ public class SkillModel{
 		this.parent = parent;
 		this.sons = sons;
 		this.details = details;
-		this.next=this;
-		this.last=this;
 		this.level=0;
 		this.maxLevel=maxLevel;
 		this.milestones=milestones;
@@ -62,11 +58,10 @@ public class SkillModel{
 	public SkillModel[] getParentLinks(){
 		return this.parent;
 	}
-	
+    
 	public String getName(){
 		return this.name;
 	}
-
 
 
 	//simple method for debugging purposes.
@@ -81,6 +76,20 @@ public class SkillModel{
 			"\n requirements: " + this.requirements + 
 			"\n isActive?     " + this.isActive;
 	}
-	
 
+    public String[] getDetails(){
+	return this.details;
+    }
+
+    public String[] getMilestones(){
+	return this.milestones;
+    }
+
+    public int[] getAchieved(){
+	return this.achieved;
+    }
+    
+    public int getLevel(){
+	return this.level;
+    }
 }
