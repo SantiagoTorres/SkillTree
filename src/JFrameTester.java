@@ -1,22 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import javax.imageio.*;
 public class JFrameTester {
 	
 
 	public static void main(String[] args) {
-	    //TreeView treeView;
-	    SkillToolTip skillToolTip;
-	    JFrame f = new JFrame("A JFrame");
-		/*treeView =  new TreeView(30,30,f.getContentPane());*/
-	    //	GridBagConstraints c = new GridBagConstraints();
-		/*skillToolTip = new SkillToolTip(new SkillModel(),f.getContentPane());*/
-		SkillDetailView Sdk = new SkillDetailView(new SkillModel());
-			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setSize(250, 250);
-		f.setLocation(300,200);
-		f.pack();
-		f.setVisible(true);
-				          
+
+		TreeView treeView;
+		MainWindow mainWindow;
+		CreateSkill theSkill;
+		TreeModel treeModel = new TreeModel(new SkillModel());
+		JLabel theLabel = new JLabel("lulz");
+		SkillView skillView = new SkillView(new String("name"),new String("0/1"),"/home/sangy/inkscape_pasted_image_20120814_004801.png");
+		treeView =  new TreeView(2,2);
+		treeView.addComponentAt(skillView,0,0);
+		mainWindow = new MainWindow(treeView);
+		theSkill = new CreateSkill(treeModel);
 	}
-	    
+	
 }

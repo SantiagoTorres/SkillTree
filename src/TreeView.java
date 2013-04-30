@@ -1,21 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
-public class TreeView {
+public class TreeView extends Panel{
 
-	private Container pane;	
+	//private Container pane;	
 	private int y;
 	private int x;
 
-	public TreeView(int x, int y, Container pane) {
+	/*public TreeView(int x, int y, Container pane) {
 		      
 		this.pane = pane;
-		GridBagConstraints c = new GridBagConstraints();
 		pane.setLayout(new GridLayout(x,y));
-		pane.add(new JTextArea(10, 40),c);
-			          
+		pane.add(new JTextArea(10, 40));
 	}
-
+*/
+	public TreeView(int x, int y){
+		this.setLayout(new GridLayout(x,y));
+	}
 	public boolean addComponentAt(Component component, int x, int y){
+		this.add(component);
 		return true;
 
 	}
