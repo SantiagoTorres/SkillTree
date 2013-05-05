@@ -1,6 +1,6 @@
 /**
  * This class make the Skill Detail View Window
- * @author Mike "The Mechanic" Kelly
+ * @author Mike "The Mechanic" Kelly & Santiago Torres Arias
  */
 
 import javax.swing.*;
@@ -20,9 +20,11 @@ public class SkillDetailView extends JFrame{
     private JLabel detail;
     private JScrollPane parentScrollPane;
     private JScrollPane sonsScrollPane;
+    private JButton closeButton;
 
     public SkillDetailView(SkillModel sm){
 	super("Skill Detail: "+sm.getName());
+	int milestoneNumber;
 	this.sm = sm;
 	Box topVBox=Box.createVerticalBox();
 	Box topHBox=Box.createHorizontalBox();
@@ -34,7 +36,7 @@ public class SkillDetailView extends JFrame{
 	Box rightDownHBox=Box.createHorizontalBox();
 	Box parentVBox=Box.createVerticalBox();
 	Box sonsVBox=Box.createVerticalBox();
-	
+
 	this.name = new JLabel(this.sm.getName()+"  ");
 	String levelSt = new String("level: "+this.sm.getLevel()+"  ");
 	this.level= new JLabel(levelSt);
@@ -44,27 +46,35 @@ public class SkillDetailView extends JFrame{
 	//this.reqScrollPane.setAlignmentX(LEFT_ALIGMENT);
 	String[] reqString=this.sm.getRequirements();
 	Box reqScrollPaneVBox=Box.createVerticalBox();
-	for(int i=0;i<this.sm.getRequirements().length;i++){
-	    reqScrollPaneVBox.add(new JLabel("<html> * "+reqString[i]+"</html>"));
+	if(reqString!=null){
+		for(int i=0;i<this.sm.getRequirements().length;i++){
+	    		reqScrollPaneVBox.add(new JLabel("<html> * "+reqString[i]+"</html>"));
+		}
 	}
 	this.reqScrollPane = new JScrollPane(reqScrollPaneVBox);
 	this.reqScrollPane.setPreferredSize(new Dimension(250,250));
+	
 	String[] mileString=this.sm.getMilestones();
 	int[] achieved=this.sm.getAchieved();
 	int mileProg=0;
-	this.mileProgress= new JProgressBar(1,mileString.length);
+	milestoneNumber = mileString.length;
+	if(milestoneNumber < 1){ //basic overflow check, avoiding exceptions...
+		milestoneNumber = 1;
+	}
+	this.mileProgress= new JProgressBar(1,milestoneNumber);
+	
 	Box mileStoneVBox=Box.createVerticalBox();
 	for(int i=0;i<mileString.length;i++){
 	    if(achieved[i]==1){
 		JRadioButton jrb = new JRadioButton("<html>"+mileString[i]+"</html>",
 						    true);
-		jrb.addActionListener(new myListener(i,sm));
+		jrb.addActionListener(new milestoneClickListener(i,sm));
 		mileStoneVBox.add(jrb);
 		mileProg++;
 	    }else{
 		JRadioButton jrb2 = new JRadioButton("<html>"+mileString[i]+"</html>",
 						     false);
-		jrb2.addActionListener(new myListener(i,sm));
+		jrb2.addActionListener(new milestoneClickListener(i,sm));
 		mileStoneVBox.add(jrb2);
 	    }
 	}
@@ -79,12 +89,17 @@ public class SkillDetailView extends JFrame{
 	SkillModel[] sons = this.sm.getSons();
 	Box parentScrollPaneVBox=Box.createVerticalBox();
 	Box sonsScrollPaneVBox=Box.createVerticalBox();
-	for(int i=0;i<parent.length;i++){
-	    parentScrollPaneVBox.add(new JLabel(parent[i].getName()));
+	if(parent != null){ //simple NPE avoidance for the parents reference, since it can be built on null
+		for(int i=0;i<parent.length;i++){
+	 	   	parentScrollPaneVBox.add(new JLabel(parent[i].getName()));
+		}
 	}
-	for(int i=0;i<sons.length;i++){
-	    sonsScrollPaneVBox.add(new JLabel(sons[i].getName()));
+	if(sons != null){ //simple NPE exception avoidance for the sons reference (since it can be built on null)
+		for(int i=0;i<sons.length;i++){
+	    		sonsScrollPaneVBox.add(new JLabel(sons[i].getName()));
+		}
 	}
+
 	this.parentScrollPane=new JScrollPane();
 	this.parentScrollPane.setPreferredSize(new Dimension(120,120));
 	this.sonsScrollPane=new JScrollPane();
@@ -112,6 +127,10 @@ public class SkillDetailView extends JFrame{
 	detailsVBox.add(Box.createRigidArea(new Dimension(0,3)));
 	detailsVBox.add(this.detail);
 	detailsVBox.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+	closeButton = new JButton("Close");
+	closeButton.addActionListener(new closeButtonListener(this));
+	detailsVBox.add(closeButton);
+
 	//JScrollPane JSp = new JScrollPane();
 	//JSp.setPreferredSize(new Dimension(250,0));
 	//JLabel jl=new JLabel("<html><p>ME CAGO EN TU PUTA MADRE NO SE QUE CHINGADOS ESTA PASANDO AQUI SOLO SE QUE ESTA COSA ES UNA MIERDA.SANTIAGO YA ESTA HASTA LA MADRE. ESTO ES UNA DESCRIPCION</p></html>");
@@ -160,11 +179,12 @@ public class SkillDetailView extends JFrame{
 	this.setVisible(true);
     }
 
-    public class myListener implements ActionListener{
+
+    private class milestoneClickListener implements ActionListener{
 	private int num;
 	private SkillModel sm;
 	
-	public myListener(int i,SkillModel sm){
+	public milestoneClickListener(int i,SkillModel sm){
 	    this.num=i;
 	    this.sm=sm;
 	}
@@ -172,5 +192,19 @@ public class SkillDetailView extends JFrame{
 	public void actionPerformed(ActionEvent e){
 	    this.sm.setAchieved(num);
 	}
+
     }
+    private class closeButtonListener implements ActionListener{
+	private SkillDetailView parent;
+	
+	public closeButtonListener(SkillDetailView parent){
+		super();
+		this.parent = parent;
+	}
+
+	public void actionPerformed(ActionEvent e){
+		parent.dispose();
+	}
+    }
+
 }
