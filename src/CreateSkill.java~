@@ -174,7 +174,7 @@ public class CreateSkill implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e){
-		SkillModel newModel;
+		SkillModel newModel,parentModel;
 		int descriptionSize;
 		ArrayList<String> descriptions;
 		ArrayList<SkillModel> parents;
@@ -190,7 +190,7 @@ public class CreateSkill implements ActionListener{
 
 			//milestonesIndices = this.Milestones.size();
 			//milestones = new String[milestonesIndices.length];
-			milestones = new String[this.milestomilestoneListModel.size()];
+			milestones = new String[this.milestoneListModel.size()];
 			this.milestoneListModel.copyInto(milestones);
 			descriptionSize = this.descriptionsFields.size();
 			descriptions = new ArrayList<String>(descriptionSize);
@@ -198,16 +198,14 @@ public class CreateSkill implements ActionListener{
 			parents = new ArrayList<SkillModel>(parentIndices.length);
 
 			System.out.println("lol " + requirements.length + "/" + requirementIndices.length + "/" + this.requirementListModel.size()); 
-/*
-			for(int i=0;i<milestonesIndices.length;i++){
-				milestones[i] = ((String)this.milestoneListModel.get(milestonesIndices[i]));
-			}
-*/		
+
+		
 			for(int i=0;i<requirementIndices.length;i++){
 				requirements[i] = ((String)this.requirementListModel.get(requirementIndices[i]));
 			}
 
-			for(int i=0;i<parentIndices.length;i++){
+			for(int i=0;i<parentIndices.length;i++){//
+				//TODO:link this newly created parent to the sons class...
 				parents.add(i,treeList.get(parentIndices[i]));
 			}
 

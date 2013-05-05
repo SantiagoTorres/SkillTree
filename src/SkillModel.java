@@ -107,6 +107,24 @@ public class SkillModel{
     public SkillModel[] getSons(){
 	return this.sons;
     }
+    public int addSon(SkillModel son){
+	int sonsSize;
+	SkillModel[] temp;
+    	if(this.sons == null){
+		this.sons = new SkillModel[1];
+		this.sons[0] = son;
+	}else{
+
+		sonsSize = this.sons.length;
+		temp = new SkillModel[sonsSize+1];
+		for(int i=0;i<sonsSize;i++){
+			temp[i] = this.sons[i];
+		}
+		temp[temp.length-1] = son;
+		this.sons = temp;
+	}
+	return 0;
+    }
     public void setAchieved(int num){
 	if(this.achieved[num]==0){
 	    this.achieved[num]=1;

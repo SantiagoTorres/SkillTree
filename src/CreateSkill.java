@@ -174,7 +174,7 @@ public class CreateSkill implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e){
-		SkillModel newModel;
+		SkillModel newModel,parentModel;
 		int descriptionSize;
 		ArrayList<String> descriptions;
 		ArrayList<SkillModel> parents;
@@ -198,16 +198,13 @@ public class CreateSkill implements ActionListener{
 			parents = new ArrayList<SkillModel>(parentIndices.length);
 
 			System.out.println("lol " + requirements.length + "/" + requirementIndices.length + "/" + this.requirementListModel.size()); 
-/*
-			for(int i=0;i<milestonesIndices.length;i++){
-				milestones[i] = ((String)this.milestoneListModel.get(milestonesIndices[i]));
-			}
-*/		
+
+		
 			for(int i=0;i<requirementIndices.length;i++){
 				requirements[i] = ((String)this.requirementListModel.get(requirementIndices[i]));
 			}
 
-			for(int i=0;i<parentIndices.length;i++){
+			for(int i=0;i<parentIndices.length;i++){//
 				parents.add(i,treeList.get(parentIndices[i]));
 			}
 
@@ -218,6 +215,10 @@ public class CreateSkill implements ActionListener{
 				
 			newModel = new SkillModel(this.nameField.getText(),descriptions.toArray(new String[descriptions.size()]),parents.toArray(new SkillModel[parents.size()]),null,this.descriptionsPane.getTabCount(),milestones,requirements);
 			tree.addSkill(newModel);
+			for(int i=0;i<parentIndices.length;i++){
+				parentModel = treeList.get(parentIndices[i]);
+				parentModel.addSon(newModel);
+			}
 			System.out.println(newModel.toString());
 			SkillDetailView aview = new SkillDetailView(newModel);
 		}
