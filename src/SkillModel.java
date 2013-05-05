@@ -67,13 +67,13 @@ public class SkillModel{
 	//simple method for debugging purposes.
 	public String toString(){
 		return this.name +  
-			"\n Parent:       " + this.parent + 
+			"\n Parents:       " + this.parent.length + 
 			"\n Sons:         " + this.sons + 
-			"\n Details:      " + this.details +
+			"\n Details:      " + this.details.length +
 		       	"\n Level:        " + this.level + "/" + this.maxLevel + 
-			"\n Milestones:   " + this.milestones + 
-			"\n Achievement:  " + this.achieved + 
-			"\n requirements: " + this.requirements + 
+			"\n Milestones:   " + this.milestones.length + 
+			"\n Achievement:  " + this.achieved.length + 
+			"\n requirements: " + this.requirements.length + 
 			"\n isActive?     " + this.isActive;
 	}
 
