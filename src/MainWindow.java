@@ -16,7 +16,7 @@ public class MainWindow {
 		BufferedImage image;
 
 		try{
-			image = ImageIO.read(new File("../resources/images/wolf.png"));
+			image = ImageIO.read(new File("../lib/resources/images/wolf.png"));
 		}catch(Exception e){
 			image = new BufferedImage(40,40,1);
 		}
