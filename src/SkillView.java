@@ -24,8 +24,7 @@ public class SkillView extends Panel{
 		try{
 			image = ImageIO.read(new File(imageFilename));
 		}catch(IOException exception){
-			image = null;
-			System.out.println("lulz");
+			image = new BufferedImage(40,40,1);
 		}
 		imageIcon = new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH));
 		border = new Box(BoxLayout.Y_AXIS);

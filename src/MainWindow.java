@@ -16,10 +16,9 @@ public class MainWindow {
 		BufferedImage image;
 
 		try{
-			image = ImageIO.read(new File("/home/sangy/inkscape_pasted_image_20120814_004801.png"));
+			image = ImageIO.read(new File("../resources/images/wolf.png"));
 		}catch(Exception e){
-			System.out.println("lulz");
-			image = null;
+			image = new BufferedImage(40,40,1);
 		}
 		//initializing the menu bar
 		menuBar = new JMenuBar();
