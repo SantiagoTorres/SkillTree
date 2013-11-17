@@ -12,7 +12,6 @@ jar: ClimaIbero.class
 ClimaIbero.class: Engine.class Twitt.class #TweetStack.class
 	javac ClimaIbero.java
 clean: 
-	rm -rf climauia.jar
+	rm -rf *.jar
 	rm -rf *.class
-	rm -rf Tweet/*.class
-	rm -rf Engines/*.class
+	rm -rf src/*.class
