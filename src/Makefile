@@ -24,6 +24,9 @@ TreeModel.class:
 TreeView.class:
 	javac TreeView.java
 
+jar:
+	jar -cvfm ../SkillTree.jar ../MANIFEST.MF *.class 
+
 clean: 
 	rm -rf *.class
 	rm -rf *~
