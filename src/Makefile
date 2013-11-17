@@ -10,7 +10,7 @@ MainWindow.class:
 	javac MainWindow.java
 
 SkillModel.class:
-	javac SkillMode.java 
+	javac SkillModel.java 
 
 SkillToolTip.class: 
 	javac SkillToolTip.java
