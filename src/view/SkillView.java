@@ -1,3 +1,4 @@
+package view;
 /*
  * SkillView.java contains the view definition and display methods for the SkillModel and Controller Classes.
  *
@@ -15,7 +16,8 @@ public class SkillView extends Panel{
 	private JLabel level;
 	private JButton Halo;
 	private Box border;
-	public SkillView(String name, String level, String imageFilename){
+	
+  public SkillView(String name, String level, String imageFilename){
 		super();
 		BoxLayout theLayout = new BoxLayout(this,BoxLayout.Y_AXIS);
 		BufferedImage image;
@@ -40,8 +42,8 @@ public class SkillView extends Panel{
 		this.Halo.setBackground(new Color(80,80,80,200));
 		this.Halo.setAlignmentX(this.CENTER_ALIGNMENT);
 		border.add(this.Halo);
-
-	       	this.name = new JLabel(name);
+  
+    this.name = new JLabel(name);
 		this.name.setAlignmentX(this.CENTER_ALIGNMENT);
 		this.level = new JLabel(level);
 		this.level.setAlignmentX(this.CENTER_ALIGNMENT);

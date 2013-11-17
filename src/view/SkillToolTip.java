@@ -1,5 +1,8 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
+import model.*;
 /**
  * This Class is the toolTips that show the Skill
  * @author Mike "The Mechanic" Kelly

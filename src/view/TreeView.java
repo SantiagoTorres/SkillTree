@@ -1,5 +1,9 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
+import model.*;
+import view.*;
 public class TreeView extends Panel{
 
 	//private Container pane;	
