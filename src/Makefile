@@ -1,33 +1,21 @@
-all: SkillTree.class CreateSkill.class MainWindow.class SkillModel.class SkillToolTip.class SkillView.class TreeModel.class TreeView.class
+all: skill_tree
 	
-SkillTree.class: CreateSkill.class MainWindow.class SkillModel.class SkillToolTip.class SkillView.class TreeModel.class TreeView.class
-	javac SkillTree.java
+model:
+	make -C model all
 
-CreateSkill.class:
-	javac CreateSkill.java
+view: model
+	make -C view all
 
-MainWindow.class: 
-	javac MainWindow.java
+skill_tree: model view
+	javac -classpath . SkillTree.java
 
-SkillModel.class:
-	javac SkillModel.java 
-
-SkillToolTip.class: 
-	javac SkillToolTip.java
-
-SkillView.class:
-	javac SkillView.java
-
-TreeModel.class:
-	javac TreeModel.java
-
-TreeView.class:
-	javac TreeView.java
 
 jar:
-	jar -cvfm ../SkillTree.jar ../MANIFEST.MF *.class 
+	jar -cvfm ../SkillTree.jar ../MANIFEST.MF model/*.class view/*.class *.class
 
 clean: 
+	make -C model clean
+	make -C view clean
 	rm -rf *.class
 	rm -rf *~
 	rm -rf *.sw*

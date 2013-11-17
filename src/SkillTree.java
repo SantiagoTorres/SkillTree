@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import javax.imageio.*;
+import model.*;
+import view.*;
 public class SkillTree {
 	
 
