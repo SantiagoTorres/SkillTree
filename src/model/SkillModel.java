@@ -52,6 +52,9 @@ public class SkillModel{
                     String[] milestones, String[] requirements){
     this.name = name;
     this.details = details;
+    this.parent = new ArrayList<RequirementModel>();
+    this.sons = new ArrayList<RequirementModel>();
+    
     this.level=0;
     this.maxLevel=maxLevel;
     this.milestones=milestones;

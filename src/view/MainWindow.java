@@ -1,7 +1,9 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
@@ -13,11 +15,20 @@ public class MainWindow {
 	JMenuBar menuBar;
 	Box buttonBox;
 
-	public MainWindow(TreeView theTreeView) {
+	public MainWindow(TreeView theTreeView, TreeModel tree) {
 		Box theBox = new Box(BoxLayout.Y_AXIS);
 		mainFrame = new JFrame("Skill Tree Ver 0.0a");
+    skillAddListener addDialog = new skillAddListener(tree);
 		JMenu JMenuRef;
 		BufferedImage image;
+    JMenuItem newMenuItem;
+    JMenuItem loadMenuItem;
+    JMenuItem addMenuItem;
+    JMenuItem removeMenuItem;
+    JMenuItem removeBranchMenuItem;
+    JMenuItem exitMenuItem;
+    JMenuItem helpMenuItem;
+    JMenuItem aboutMenuItem;
 
 		try{
 			image = ImageIO.read(new File("../../lib/resources/images/wolf.png"));
@@ -27,20 +38,34 @@ public class MainWindow {
 		//initializing the menu bar
 		menuBar = new JMenuBar();
 		JMenuRef = new JMenu("File");//file
-		JMenuRef.add(new JMenuItem("New"));
-		JMenuRef.add(new JMenuItem("Load"));
+    newMenuItem = new JMenuItem("New");
+		JMenuRef.add(newMenuItem);
+    loadMenuItem = new JMenuItem("Load");
+		JMenuRef.add(loadMenuItem);
 		JMenuRef.addSeparator();
-		JMenuRef.add(new JMenuItem("Add"));
-		JMenuRef.add(new JMenuItem("Remove"));
-		JMenuRef.add(new JMenuItem("Remove Branch"));
+    
+    addMenuItem = new JMenuItem("Add");
+    addMenuItem.addActionListener(addDialog);
+		JMenuRef.add(addMenuItem);
+    removeMenuItem = new JMenuItem("Remove");
+		JMenuRef.add(removeMenuItem);
+    removeBranchMenuItem = new JMenuItem("Remove Branch");
+		JMenuRef.add(removeBranchMenuItem);
 		JMenuRef.addSeparator();
-		JMenuRef.add(new JMenuItem("Exit"));
+
+    exitMenuItem = new JMenuItem("Exit");
+		JMenuRef.add(exitMenuItem);
 		menuBar.add(JMenuRef);
+
+    
 		JMenuRef = new JMenu("Help"); //help
-		JMenuRef.add(new JMenuItem("About"));
-		JMenuRef.add(new JMenuItem("lulz"));
+    aboutMenuItem = new JMenuItem("About");
+		JMenuRef.add(aboutMenuItem);
+    helpMenuItem = new JMenuItem("Help");
+		JMenuRef.add(helpMenuItem);
 		menuBar.add(JMenuRef);
-		mainFrame.setJMenuBar(menuBar);
+		
+    mainFrame.setJMenuBar(menuBar);
 		
 		buttonBox = new Box(BoxLayout.X_AXIS);
 		buttonBox.add(new JButton("Add",new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
@@ -60,5 +85,19 @@ public class MainWindow {
 		mainFrame.setVisible(true);
 				          
 	}
-	    
+  
+  private class skillAddListener implements ActionListener{
+    private CreateSkill skillToCreate;
+    private TreeModel tree;
+
+    public skillAddListener(TreeModel tree){
+      super();
+      this.tree = tree;
+    }
+   
+    public void actionPerformed(ActionEvent e){
+      this.skillToCreate = new CreateSkill(tree);
+    } 
+
+  } 
 }

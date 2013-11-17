@@ -1,7 +1,9 @@
 package model;
 /*
  * TreeModel.java: contains the data model for the SkillTree App
- *
+ *  
+ *  Consider that the first element of the tree is probably the source, 
+ *  relocation methods might be offered and implemented in the future
  * Author: Santiago Torres
  * Date:   29 apr 2013
  */
@@ -17,7 +19,9 @@ public class TreeModel{
 	
 	public int addSkill(SkillModel skillToAdd){
 		this.skillList.add(skillToAdd);
-    this.requirementsList.addAll(skillToAdd.getParentLinks());
+    if(this.requirementsList!=null){
+      this.requirementsList.addAll(skillToAdd.getParentLinks());
+    }
 		return 0;		
 	}
 
