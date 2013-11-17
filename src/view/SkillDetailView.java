@@ -1,3 +1,4 @@
+package view;
 /**
  * This class make the Skill Detail View Window
  * @author Mike "The Mechanic" Kelly & Santiago Torres Arias
@@ -7,23 +8,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.*;
-
+import model.*;
 public class SkillDetailView extends JFrame{
     
-    private SkillModel sm;
-    private JLabel name;
-    private JLabel level;
-    private JProgressBar progress;
-    private JScrollPane reqScrollPane;
-    private JScrollPane millScrollPane;
-    private JProgressBar mileProgress;
-    private JLabel detail;
-    private JScrollPane parentScrollPane;
-    private JScrollPane sonsScrollPane;
-    private JButton closeButton;
+  private SkillModel sm;
+  private JLabel name;
+  private JLabel level;
+  private JProgressBar progress;
+  private JScrollPane reqScrollPane;
+  private JScrollPane millScrollPane;
+  private JProgressBar mileProgress;
+  private JLabel detail;
+  private JScrollPane parentScrollPane;
+  private JScrollPane sonsScrollPane;
+  private JButton closeButton;
+  public SkillDetailView(SkillModel sm){
 
-    public SkillDetailView(SkillModel sm){
-	super("Skill Detail: "+sm.getName());
+  super("Skill Detail: "+sm.getName());
 	int milestoneNumber;
 	this.sm = sm;
 	Box topVBox=Box.createVerticalBox();
@@ -128,7 +129,7 @@ public class SkillDetailView extends JFrame{
 	detailsVBox.add(this.detail);
 	detailsVBox.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 	closeButton = new JButton("Close");
-	closeButton.addActionListener(new closeActionListener(this));
+	closeButton.addActionListener(new closeButtonListener(this));
 	detailsVBox.add(closeButton);
 
 	//JScrollPane JSp = new JScrollPane();

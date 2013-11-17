@@ -1,3 +1,4 @@
+package model;
 /**
  * Skill Model: Contains information about an specific skill under the tree
  *
@@ -9,8 +10,8 @@
  * Date: 29 apr 2013
  */
 import java.lang.*;
-
-
+import java.util.*;
+import model.*;
 /**
  * Skill Model class
  *
@@ -18,8 +19,8 @@ import java.lang.*;
  */
 public class SkillModel{
   private String name;           //<the name of the vertex (or skill)
-  private SkillModel[] parent;   //<The name of the parent (or parents)
-  private SkillModel[] sons;     //< The name of the son, (or sons)
+  private ArrayList<RequirementModel> parent;//<The name of the parent 
+  private ArrayList<RequirementModel> sons;  //< The name of the son (or sons)
   private String[] details;      //< Information about the skill
   private int level;             //< the current level on this skill  
   private int maxLevel;          //< the maximum level on the skill
@@ -31,8 +32,8 @@ public class SkillModel{
   //empty constructor, avoid this one, use the one with arguments
   public SkillModel(){
     String emptyDetails[] = {"empty"};
-    SkillModel[] emptySkills = new SkillModel[1];
-    emptySkills[0]=this;
+    ArrayList<RequirementModel> emptySkills =
+        new ArrayList<RequirementModel>();
     System.out.println("Skills are not meant to be created with an empty constructor");
     this.name = new String("Empty");
     this.parent = emptySkills;
@@ -47,13 +48,13 @@ public class SkillModel{
   }  
 
   //full constructor it's not validated yet
-  public SkillModel(String name, String[] details, SkillModel[] parent, 
-                    SkillModel[] sons,int maxLevel, String[] milestones,
-                    String[] requirements){
+  public SkillModel(String name, String[] details, int maxLevel,
+                    String[] milestones, String[] requirements){
     this.name = name;
-    this.parent = parent;
-    this.sons = sons;
     this.details = details;
+    this.parent = new ArrayList<RequirementModel>();
+    this.sons = new ArrayList<RequirementModel>();
+    
     this.level=0;
     this.maxLevel=maxLevel;
     this.milestones=milestones;
@@ -62,33 +63,43 @@ public class SkillModel{
     this.isActive=false;
   }	
         
-        //setParentLinks: resets link array	
-  public int setParentLinks(SkillModel[] newLinks){
+ 
+  //some SETTER methods
+  //setParentLinks: resets link array	
+  public int setParentLinks(ArrayList<RequirementModel> newLinks){
     this.parent = newLinks;
     return 0;
   }
-	
-  public SkillModel[] getParentLinks(){
+
+
+  //GETTER methods  
+  public ArrayList<RequirementModel> getParentLinks(){
     return this.parent;
+  }
+
+  public ArrayList<RequirementModel> getSonLinks(){
+    return this.sons;
+  }
+  
+  public SkillModel[] getParents(){
+    SkillModel parents[] = new SkillModel[this.parent.size()];
+    for(int i=0;i<parents.length;i++){
+      parents[i] = this.parent.get(i).getSource();
+    }
+    return parents;
+  }
+
+  public SkillModel[] getSons(){
+    SkillModel sons[] = new SkillModel[this.sons.size()];
+    for(int i=0;i<sons.length;i++){
+      sons[i] = this.sons.get(i).getSource();
+    }
+    return sons;
   }
 
   public String getName(){
     return this.name;
   }
-
-
-	//simple method for debugging purposes.
-  public String toString(){
-		return this.name +  
-			"\n Parents:       " + this.parent.length + 
-			"\n Sons:         " + this.sons + 
-			"\n Details:      " + this.details.length +
-		       	"\n Level:        " + this.level + "/" + this.maxLevel + 
-			"\n Milestones:   " + this.milestones.length + 
-			"\n Achievement:  " + this.achieved.length + 
-			"\n requirements: " + this.requirements.length + 
-			"\n isActive?     " + this.isActive;
-	}
 
   public String[] getDetails(){
     return this.details;
@@ -101,11 +112,11 @@ public class SkillModel{
   public int[] getAchieved(){
     return this.achieved;
   }
-    
+
   public int getLevel(){
     return this.level;
   }
-    
+
   public int getMaxLevel(){
     return this.maxLevel;
   }
@@ -114,32 +125,8 @@ public class SkillModel{
     return this.requirements;
   }
 
-  public SkillModel[] getParents(){
-    return this.parent;
-  }
   
-  public SkillModel[] getSons(){
-    return this.sons;
-  }
-  
-  public int addSon(SkillModel son){
-    int sonsSize;
-    SkillModel[] temp;
-    if(this.sons == null){
-      this.sons = new SkillModel[1];
-      this.sons[0] = son;
-	  }else{
-      sonsSize = this.sons.length;
-      temp = new SkillModel[sonsSize+1];
-      for(int i=0;i<sonsSize;i++){
-        temp[i] = this.sons[i];
-		  }
-      temp[temp.length-1] = son;
-      this.sons = temp;
-	  }
-      return 0;
-  }
-    
+  //MISC methods
   public void setAchieved(int num){
 	  if(this.achieved[num]==0){
       this.achieved[num]=1;
@@ -150,4 +137,27 @@ public class SkillModel{
       System.out.println(this.achieved[i]);
     }
   }
+
+  public RequirementModel addSon(SkillModel son){
+    RequirementModel newLink = new RequirementModel(this,son,1);
+    this.sons.add(newLink);
+    return newLink;
+  }
+
+
+  public void addParentLink(RequirementModel link){
+    this.parent.add(link);
+  }
+	//simple toString() method for debugging purposes.
+  public String toString(){
+		return this.name +  
+			"\n Parents:      " + this.parent.size() + 
+			"\n Sons:         " + this.sons.size() + 
+			"\n Details:      " + this.details.length +
+      "\n Level:        " + this.level + "/" + this.maxLevel + 
+			"\n Milestones:   " + this.milestones.length + 
+			"\n Achievement:  " + this.achieved.length + 
+			"\n requirements: " + this.requirements.length + 
+			"\n isActive?     " + this.isActive;
+	}
 }

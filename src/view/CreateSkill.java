@@ -1,3 +1,4 @@
+package view;
 /*
  *  CreateSkill.java
  *  A windowed view-controller that creates SkillModel instances for the SkillTree project
@@ -11,6 +12,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.event.*;
+import model.*;
+
 public class CreateSkill implements ActionListener{
 	private JFrame thePanel;
 	private JLabel name;
@@ -177,7 +180,7 @@ public class CreateSkill implements ActionListener{
 		SkillModel newModel,parentModel;
 		int descriptionSize;
 		ArrayList<String> descriptions;
-		ArrayList<SkillModel> parents;
+		ArrayList<RequirementModel> parents;
 		ArrayList<SkillModel> treeList;
 		int[] parentIndices,requirementIndices,milestonesIndices;
 		String[] requirements;
@@ -188,34 +191,43 @@ public class CreateSkill implements ActionListener{
 			requirementIndices = this.Requirements.getSelectedIndices();
 			requirements = new String[requirementIndices.length];
 
-			//milestonesIndices = this.Milestones.size();
-			//milestones = new String[milestonesIndices.length];
 			milestones = new String[this.milestoneListModel.size()];
 			this.milestoneListModel.copyInto(milestones);
 			descriptionSize = this.descriptionsFields.size();
 			descriptions = new ArrayList<String>(descriptionSize);
 			parentIndices = this.Parents.getSelectedIndices();
-			parents = new ArrayList<SkillModel>(parentIndices.length);
+			parents = new ArrayList<RequirementModel>(parentIndices.length);
 
-			System.out.println("lol " + requirements.length + "/" + requirementIndices.length + "/" + this.requirementListModel.size()); 
+			System.out.println("lol " + 
+          requirements.length + "/" + 
+          requirementIndices.length + "/" + 
+          this.requirementListModel.size()); 
 
 		
 			for(int i=0;i<requirementIndices.length;i++){
-				requirements[i] = ((String)this.requirementListModel.get(requirementIndices[i]));
+				requirements[i] = 
+          ((String)this.requirementListModel.get(requirementIndices[i]));
 			}
 
-			for(int i=0;i<parentIndices.length;i++){//
-				//TODO:link this newly created parent to the sons class...
-				parents.add(i,treeList.get(parentIndices[i]));
-			}
 
 			for(int i=0;i<descriptionSize;i++){
-				descriptions.add(i,((JTextArea)this.descriptionsFields.get(i)).getText());
+				descriptions.add(i,
+            ((JTextArea)this.descriptionsFields.get(i)).getText());
 			}
 			
 				
-			newModel = new SkillModel(this.nameField.getText(),descriptions.toArray(new String[descriptions.size()]),parents.toArray(new SkillModel[parents.size()]),null,this.descriptionsPane.getTabCount(),milestones,requirements);
-			tree.addSkill(newModel);
+			newModel = new SkillModel(this.nameField.getText(), //this is the name
+          descriptions.toArray(new String[descriptions.size()]),
+          this.descriptionsPane.getTabCount(), //this will be the maxLevel
+          milestones,requirements
+          );
+
+			for(int i=0;i<parentIndices.length;i++){
+				parentModel = treeList.get(parentIndices[i]);
+				newModel.addParentLink(parentModel.addSon(newModel)); //Link both skills
+
+			}
+      tree.addSkill(newModel);
 			System.out.println(newModel.toString());
 			SkillDetailView aview = new SkillDetailView(newModel);
 		}

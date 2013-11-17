@@ -1,5 +1,8 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
+import model.*;
 /**
  * This Class is the toolTips that show the Skill
  * @author Mike "The Mechanic" Kelly
@@ -8,6 +11,8 @@ import java.awt.*;
 public class SkillToolTip extends JToolTip{
     
     private SkillModel sm;
+
+    
     private Box vbox;
     private JLabel nameLabel = new JLabel();
     private JLabel description = new JLabel();
