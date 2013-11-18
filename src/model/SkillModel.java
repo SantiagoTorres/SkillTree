@@ -28,7 +28,11 @@ public class SkillModel{
   private int[] achieved;        //< Boolean flags for the milestones
   private String[] requirements; //< External Milestones from other skills
   private boolean isActive;      //< Is this skill available to train?
-  
+ 
+  private RequirementModel source; //<This is a BFS supporting pointer
+  private ArrayList<RequirementModel> next; //This is a subset of the sons
+  private int distance;            //< This is a BFS supporting number
+
   //empty constructor, avoid this one, use the one with arguments
   public SkillModel(){
     String emptyDetails[] = {"empty"};
@@ -148,6 +152,35 @@ public class SkillModel{
   public void addParentLink(RequirementModel link){
     this.parent.add(link);
   }
+
+
+  //BFS supporting functions
+  public void initForBFS(){
+    this.distance = -1;
+    this.source = null;
+    this.next = new ArrayList<RequirementModel>();
+  }
+
+  public void visit(RequirementModel source, int distance){
+    this.distance = distance;
+    this.source = source;
+  }
+
+  public boolean isVisited(){
+    if(distance != -1){
+      return true;
+    }
+    return false;
+  }
+
+  public int getDistance(){
+    return this.distance;
+  }
+
+  public void addToNext(RequirementModel next){
+    this.next.add(next);
+  }
+
 	//simple toString() method for debugging purposes.
   public String toString(){
 		return this.name +  

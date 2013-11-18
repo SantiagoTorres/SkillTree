@@ -12,35 +12,115 @@ import java.util.*;
 import model.*;
 
 public class TreeModel{
-	//properties
-	private ArrayList<SkillModel> skillList;
+  //properties
+  private ArrayList<SkillModel> skillList;
   private ArrayList<RequirementModel> requirementsList;
-	//methods
+  private boolean isBFSRecent;//this flag will be used to avoid recalculating
+                              //the tree when it is not needed
+                              //methods
 	
-	public int addSkill(SkillModel skillToAdd){
-		this.skillList.add(skillToAdd);
+  public int addSkill(SkillModel skillToAdd){
+    this.skillList.add(skillToAdd);
     if(this.requirementsList!=null){
       this.requirementsList.addAll(skillToAdd.getParentLinks());
     }
-		return 0;		
-	}
+    this.isBFSRecent=false;
+    return 0;		
+  }
 
-	public int removeSkill(SkillModel skillToRemove){
-		this.skillList.remove(skillToRemove);
-		return 0;
-	}
+  //TODO: remove skill should remove trailing verteces
+  public int removeSkill(SkillModel skillToRemove){
+    this.skillList.remove(skillToRemove);
+    return 0;
+  }
 
-	public int removeBranch(SkillModel root){
-		System.out.println("missing implementation");
-		return 1;
-	}
+  public int removeBranch(SkillModel root){
+    System.out.println("missing implementation");
+    return 1;
+  }
 	
-	public TreeModel(SkillModel root){
-		this.skillList = new ArrayList<SkillModel>(1);
-		this.skillList.add(root);
-	}
+  public TreeModel(SkillModel root){
+    this.skillList = new ArrayList<SkillModel>(1);
+    this.skillList.add(root);
+    this.isBFSRecent=false;
+  }
 
-	public ArrayList<SkillModel> getList(){
-		return this.skillList;
-	}
+  public ArrayList<SkillModel> getList(){
+    return this.skillList;
+  }
+
+  //actual fun methods
+  //
+  /**
+   * This method builds a BFS tree using the existing Skills on the tree,
+   * this is usually a helper function to help us mapping the skills in a 
+   * grid.
+   *
+   * \returns the root of the BFS tree built
+   */
+  public SkillModel buildBFS(){
+    LinkedList<SkillModel> processQueue;
+    SkillModel vertex,currentVertex;
+    Iterator<RequirementModel> edges;
+    Iterator<SkillModel> skillIterator;
+    RequirementModel currentEdge;
+
+    if(this.isBFSRecent==false){
+      processQueue = new LinkedList<SkillModel>();
+
+      //initialize the graph for breadth first search
+      skillIterator = skillList.iterator();
+      while(skillIterator.hasNext()){
+        skillIterator.next().initForBFS();
+      }
+
+      vertex = this.skillList.get(0);
+      vertex.visit(null,0);
+      processQueue.addLast(vertex);//add root
+      while(processQueue.size()>1){
+        //dequeue a object for processing
+        currentVertex = processQueue.removeFirst();
+
+        //discover new nodes.
+        edges = currentVertex.getSonLinks().iterator();
+        while(edges.hasNext()){
+          //for all of the elements connected to the tree
+          currentEdge = edges.next();
+          vertex = currentEdge.getDestination();
+
+          //enqueue for processing, and update the current vertex
+          if(currentVertex.isVisited() == false){
+            vertex.visit(currentEdge,currentVertex.getDistance());
+            currentVertex.addToNext(currentEdge);
+            processQueue.addLast(vertex);
+          }
+        }
+      }
+      this.isBFSRecent=true;
+    }
+    return this.skillList.get(0);
+  }
+
+  
+  /**
+   * This function telies on the buildBFS function, it will calculate the 
+   * widest level of the tree, so we can estimate the size of the grid.
+   *
+   * \returns an integer representing the width of the widest section of the
+   * tree, this is not necesarilly the lowest level
+   */
+  public int getTreeWidth(){
+    return 0;
+  }
+
+
+  /** 
+   * This function traverses the constructed BFS in order to find the longest 
+   * branch, this is usually a helper function to help us build the grid.
+   *
+   * \retunrs an integer of the number of skills on the longest branch
+   */
+  public int getTreeHeight(){
+    return 0;
+  }
 }
