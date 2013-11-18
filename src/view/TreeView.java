@@ -20,6 +20,7 @@ public class TreeView extends Panel{
 	public TreeView(int x, int y){
 		this.setLayout(new GridLayout(x,y));
 	}
+
 	public boolean addComponentAt(Component component, int x, int y){
 		this.add(component);
 		return true;

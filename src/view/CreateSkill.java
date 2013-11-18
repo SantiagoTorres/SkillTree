@@ -97,7 +97,11 @@ public class CreateSkill implements ActionListener{
 		removeMilestone.add(this.removeButton);
 		removeMilestone.add(Box.createVerticalGlue());
 
-		this.Parents = new JList(traverseTreeForNames(theTreeView));
+    System.out.println(theTreeView.getList().isEmpty());
+    if(!theTreeView.getList().isEmpty())
+		  this.Parents = new JList(traverseTreeForNames(theTreeView));
+    else
+      this.Parents = new JList();
 		this.Parents.addListSelectionListener(new ListListener(this.Requirements,theTreeView));
 		this.Parents.setFixedCellHeight(20);
 		this.Parents.setFixedCellWidth(300);
@@ -185,6 +189,10 @@ public class CreateSkill implements ActionListener{
 		int[] parentIndices,requirementIndices,milestonesIndices;
 		String[] requirements;
 		String[] milestones;
+    
+
+    //if the ok button is pressed, wrap the info in the form and build a new
+    //skill object
 		if("Ok".equals(e.getActionCommand())){
 			treeList = tree.getList();
 			
@@ -228,6 +236,11 @@ public class CreateSkill implements ActionListener{
 
 			}
       tree.addSkill(newModel);
+      tree.buildBFS();
+      System.out.println("Built BFS: \n" +
+          "  height: " + tree.getTreeHeight() + "\n" +
+          "  Width:  " + tree.getTreeWidth() + "\n");
+
 			System.out.println(newModel.toString());
 			SkillDetailView aview = new SkillDetailView(newModel);
 		}

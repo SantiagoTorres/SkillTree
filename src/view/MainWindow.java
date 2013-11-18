@@ -68,8 +68,10 @@ public class MainWindow {
     mainFrame.setJMenuBar(menuBar);
 		
 		buttonBox = new Box(BoxLayout.X_AXIS);
-		buttonBox.add(new JButton("Add",new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
-		buttonBox.add(new JButton("Remove",new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
+		buttonBox.add(new JButton("Add",
+          new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
+		buttonBox.add(new JButton("Remove",
+          new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
 		theBox.add(buttonBox);
 		
 
