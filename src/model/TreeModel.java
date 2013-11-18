@@ -18,8 +18,22 @@ public class TreeModel{
   private boolean isBFSRecent;//this flag will be used to avoid recalculating
                               //the tree when it is not needed
                               //methods
-	
+  private int height;
+  private int maxWidth;
+
   public int addSkill(SkillModel skillToAdd){
+    Iterator<SkillModel> skillIterator = skillList.iterator();
+    if(skillList.isEmpty()){
+      skillList.add(skillToAdd);
+      return 0;
+    }
+    while(skillIterator.hasNext()){
+      if(skillToAdd.getName().equals(skillIterator.next().getName())){
+        System.out.println(
+            "[Error]:Skills with the same name are being added");
+        return 1;
+      }
+    }
     this.skillList.add(skillToAdd);
     if(this.requirementsList!=null){
       this.requirementsList.addAll(skillToAdd.getParentLinks());
@@ -45,6 +59,12 @@ public class TreeModel{
     this.isBFSRecent=false;
   }
 
+  public TreeModel(){
+    this.skillList = new ArrayList<SkillModel>();
+    this.skillList.clear(); //i shouldn't be forced to do this right? right?
+    this.isBFSRecent=false;
+  }
+
   public ArrayList<SkillModel> getList(){
     return this.skillList;
   }
@@ -64,10 +84,12 @@ public class TreeModel{
     Iterator<RequirementModel> edges;
     Iterator<SkillModel> skillIterator;
     RequirementModel currentEdge;
+    int widthHelper,distance;
 
     if(this.isBFSRecent==false){
       processQueue = new LinkedList<SkillModel>();
-
+      this.height = 0;
+      this.maxWidth = 0;
       //initialize the graph for breadth first search
       skillIterator = skillList.iterator();
       while(skillIterator.hasNext()){
@@ -76,26 +98,46 @@ public class TreeModel{
 
       vertex = this.skillList.get(0);
       vertex.visit(null,0);
+      widthHelper = 0;
+      distance = 0;
       processQueue.addLast(vertex);//add root
-      while(processQueue.size()>1){
+      System.out.println("Current size: " + processQueue.size());
+      while(processQueue.size()>=1){
         //dequeue a object for processing
         currentVertex = processQueue.removeFirst();
-
+        System.out.println("Current Vertex: " + currentVertex.getName()); 
+        
+        //if we progressed to a new depth of thre tree
+        if(distance<currentVertex.getDistance()){
+          distance = currentVertex.getDistance();
+          widthHelper = 0; //return the width count to 0
+        
+        }
         //discover new nodes.
         edges = currentVertex.getSonLinks().iterator();
         while(edges.hasNext()){
           //for all of the elements connected to the tree
           currentEdge = edges.next();
           vertex = currentEdge.getDestination();
-
+          System.out.println("Edge: " + currentEdge.getSource().getName() + 
+              "===> " + currentEdge.getDestination().getName());
           //enqueue for processing, and update the current vertex
-          if(currentVertex.isVisited() == false){
-            vertex.visit(currentEdge,currentVertex.getDistance());
+          if(vertex.isVisited() == false){
+            
+            vertex.visit(currentEdge,currentVertex.getDistance()+1);
             currentVertex.addToNext(currentEdge);
             processQueue.addLast(vertex);
+            widthHelper++;
           }
+
+        }
+
+        if(widthHelper>this.maxWidth){
+          this.maxWidth = widthHelper;
         }
       }
+      this.height = distance;
+
       this.isBFSRecent=true;
     }
     return this.skillList.get(0);
@@ -110,7 +152,7 @@ public class TreeModel{
    * tree, this is not necesarilly the lowest level
    */
   public int getTreeWidth(){
-    return 0;
+    return this.maxWidth;
   }
 
 
@@ -121,6 +163,6 @@ public class TreeModel{
    * \retunrs an integer of the number of skills on the longest branch
    */
   public int getTreeHeight(){
-    return 0;
+    return this.height;
   }
 }

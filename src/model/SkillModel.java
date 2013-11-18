@@ -38,7 +38,8 @@ public class SkillModel{
     String emptyDetails[] = {"empty"};
     ArrayList<RequirementModel> emptySkills =
         new ArrayList<RequirementModel>();
-    System.out.println("Skills are not meant to be created with an empty constructor");
+    System.out.println(
+        "Skills are not meant to be created with an empty constructor");
     this.name = new String("Empty");
     this.parent = emptySkills;
     this.sons = emptySkills;
