@@ -6,12 +6,15 @@ model:
 view: model
 	make -C view all
 
-skill_tree: model view
+controller:
+	make -C controller all
+
+skill_tree: model view controller
 	javac -classpath . SkillTree.java
 
 
 jar:
-	jar -cvfm ../SkillTree.jar ../MANIFEST.MF model/*.class view/*.class *.class
+	jar -cvfm ../SkillTree.jar ../MANIFEST.MF model/*.class view/*.class *.class controller/*.class
 
 clean: 
 	make -C model clean
