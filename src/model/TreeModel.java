@@ -165,4 +165,8 @@ public class TreeModel{
   public int getTreeHeight(){
     return this.height;
   }
+
+  public SkillModel getRoot(){
+    return this.skillList.get(0);
+  }
 }
