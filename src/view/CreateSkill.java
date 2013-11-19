@@ -14,8 +14,8 @@ import java.util.*;
 import javax.swing.event.*;
 import model.*;
 
-public class CreateSkill implements ActionListener{
-	private JFrame thePanel;
+public class CreateSkill extends JDialog implements ActionListener{
+	private Container thePanel;
 	private JLabel name;
 	private JLabel MaxLevel;
 	private JTextField nameField;
@@ -39,7 +39,8 @@ public class CreateSkill implements ActionListener{
 
 	private TreeModel tree;
 
-	public CreateSkill(TreeModel theTreeView){
+	public CreateSkill(Window owner, TreeModel theTreeView){
+    super(owner,"Create a Skill",ModalityType.DOCUMENT_MODAL);
 		this.tree = theTreeView;
 
 		Box vbox = new Box(BoxLayout.Y_AXIS);
@@ -53,7 +54,7 @@ public class CreateSkill implements ActionListener{
 		Box removeMilestone = new Box(BoxLayout.Y_AXIS);
 		listAddListener milestoneListener;
 
-		thePanel = new JFrame("Create a Skill");
+		thePanel = this.getContentPane();
 		this.name = new JLabel("Name: ");
 		this.MaxLevel = new JLabel("Max lvl: ");
 
@@ -141,14 +142,14 @@ public class CreateSkill implements ActionListener{
 		desParents.add(OkCancel);
 		desParents.add(Box.createVerticalGlue());
 
-		thePanel.getContentPane().setLayout(new BoxLayout(thePanel.getContentPane(),BoxLayout.X_AXIS));
+		thePanel.setLayout(new BoxLayout(thePanel,BoxLayout.X_AXIS));
 		thePanel.add(vbox);
 		thePanel.add(removeMilestone);
 		thePanel.add(desParents);
 		thePanel.add(Box.createHorizontalGlue());
-		thePanel.getContentPane().setMaximumSize(new Dimension(600,400));
-		thePanel.pack();
-		thePanel.setVisible(true);
+		thePanel.setMaximumSize(new Dimension(600,400));
+		this.pack();
+		this.setVisible(true);
 	}
 
 
