@@ -8,19 +8,22 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import model.*;
+import controller.*;
 
 public class MainWindow {
-	TreeView treeView;
-	JFrame mainFrame;
-	JMenuBar menuBar;
-	Box buttonBox;
-
-	public MainWindow(TreeView theTreeView, TreeModel tree) {
-		Box theBox = new Box(BoxLayout.Y_AXIS);
-		mainFrame = new JFrame("Skill Tree Ver 0.0a");
+	//TreeView treeView;
+  TreeController treeController;
+  JFrame mainFrame;
+  JMenuBar menuBar;
+  Box buttonBox;
+  Box theBox;
+	
+  public MainWindow(TreeView theTreeView, TreeModel tree) {
+  	theBox = new Box(BoxLayout.Y_AXIS);
+  	mainFrame = new JFrame("Skill Tree Ver 0.0a");
     skillAddListener addDialog = new skillAddListener(tree);
-		JMenu JMenuRef;
-		BufferedImage image;
+  	JMenu JMenuRef;
+  	BufferedImage image;
     JMenuItem newMenuItem;
     JMenuItem loadMenuItem;
     JMenuItem addMenuItem;
@@ -30,63 +33,64 @@ public class MainWindow {
     JMenuItem helpMenuItem;
     JMenuItem aboutMenuItem;
 
-		try{
-			image = ImageIO.read(new File("../../lib/resources/images/wolf.png"));
-		}catch(Exception e){
-			image = new BufferedImage(40,40,1);
-		}
-		//initializing the menu bar
-		menuBar = new JMenuBar();
-		JMenuRef = new JMenu("File");//file
+  	try{
+  		image = ImageIO.read(new File("../../lib/resources/images/wolf.png"));
+  	}catch(Exception e){
+  		image = new BufferedImage(40,40,1);
+  	}
+  	//initializing the menu bar
+  	menuBar = new JMenuBar();
+  	JMenuRef = new JMenu("File");//file
     newMenuItem = new JMenuItem("New");
-		JMenuRef.add(newMenuItem);
+  	JMenuRef.add(newMenuItem);
     loadMenuItem = new JMenuItem("Load");
-		JMenuRef.add(loadMenuItem);
-		JMenuRef.addSeparator();
+  	JMenuRef.add(loadMenuItem);
+  	JMenuRef.addSeparator();
     
     addMenuItem = new JMenuItem("Add");
     addMenuItem.addActionListener(addDialog);
-		JMenuRef.add(addMenuItem);
+  	JMenuRef.add(addMenuItem);
     removeMenuItem = new JMenuItem("Remove");
-		JMenuRef.add(removeMenuItem);
+  	JMenuRef.add(removeMenuItem);
     removeBranchMenuItem = new JMenuItem("Remove Branch");
-		JMenuRef.add(removeBranchMenuItem);
-		JMenuRef.addSeparator();
+  	JMenuRef.add(removeBranchMenuItem);
+  	JMenuRef.addSeparator();
 
     exitMenuItem = new JMenuItem("Exit");
-		JMenuRef.add(exitMenuItem);
-		menuBar.add(JMenuRef);
+  	JMenuRef.add(exitMenuItem);
+  	menuBar.add(JMenuRef);
 
     
-		JMenuRef = new JMenu("Help"); //help
+  	JMenuRef = new JMenu("Help"); //help
     aboutMenuItem = new JMenuItem("About");
-		JMenuRef.add(aboutMenuItem);
+  	JMenuRef.add(aboutMenuItem);
     helpMenuItem = new JMenuItem("Help");
-		JMenuRef.add(helpMenuItem);
-		menuBar.add(JMenuRef);
+  	JMenuRef.add(helpMenuItem);
+  	menuBar.add(JMenuRef);
 		
     mainFrame.setJMenuBar(menuBar);
-		
-		buttonBox = new Box(BoxLayout.X_AXIS);
-		buttonBox.add(new JButton("Add",
-          new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
-		buttonBox.add(new JButton("Remove",
-          new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
-		theBox.add(buttonBox);
+
+  	buttonBox = new Box(BoxLayout.X_AXIS);
+  	buttonBox.add(new JButton("Add",
+      new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
+  	buttonBox.add(new JButton("Remove",
+      new ImageIcon(image.getScaledInstance(50,50,Image.SCALE_SMOOTH))));
+  	theBox.add(buttonBox);
 		
 
-		this.treeView =  theTreeView;
-		theBox.add(this.treeView);
+		//this.treeView =  theTreeView;
+    this.treeController = new TreeController(tree);
+	theBox.add(this.treeController.populateAndReturnView());
 
 		
-		mainFrame.add(theBox);
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(250, 250);
-		mainFrame.setLocation(300,200);
-		mainFrame.pack();
-		mainFrame.setVisible(true);
+	mainFrame.add(theBox);
+	mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	mainFrame.setSize(250, 250);
+	mainFrame.setLocation(300,200);
+	mainFrame.pack();
+	mainFrame.setVisible(true);
 				          
-	}
+  }
   
   private class skillAddListener implements ActionListener{
     private CreateSkill skillToCreate;
@@ -98,7 +102,11 @@ public class MainWindow {
     }
    
     public void actionPerformed(ActionEvent e){
-      this.skillToCreate = new CreateSkill(tree);
+      this.skillToCreate = new CreateSkill((Window)mainFrame,tree);
+      theBox.remove(1);
+      theBox.add(treeController.populateAndReturnView());
+      theBox.validate();
+      mainFrame.validate();
     } 
 
   } 
