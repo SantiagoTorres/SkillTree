@@ -182,6 +182,9 @@ public class SkillModel{
     this.next.add(next);
   }
 
+  public ArrayList<RequirementModel> getNext(){
+    return this.next;
+  }
 	//simple toString() method for debugging purposes.
   public String toString(){
 		return this.name +  
